@@ -10,6 +10,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
+        <!-- This is needed to make Spring pickup the right java version.
+            Omitting it, leads to core dump, due to native library byte alignement issues.
+        -->
         <java.version>13</java.version>
     </properties>
     <groupId>info.andersw</groupId>
@@ -72,8 +75,36 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>macosx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>macosx</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <properties>
+                <spring.profiles.active>linux</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>application</finalName>
+        <resources>
+            <!-- Use resource filtering, to substitue in the current run profile in
+            application.properties. Needed to load the matching native libraries macosx/linux.
+            -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -81,6 +112,9 @@
             </plugin>
 
             <plugin>
+                <!-- This is needed to make Spring pickup the right java version.
+                Omitting it, leads to core dump, due to native library byte alignement issues.
+                -->
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>13</release>

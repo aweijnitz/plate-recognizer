@@ -23,4 +23,15 @@ public class OpenAlprConfig {
     @Setter
     private String defaultLocation;
 
+    @Getter
+    @Setter
+    private String nativeMode;
+
+    @Getter
+    @Setter
+    private String nativeLibFile;
+
+    @Getter
+    @Setter
+    private String jniFile;
 }

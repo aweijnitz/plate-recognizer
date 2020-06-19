@@ -1,1 +1,1 @@
-mvn spring-boot:build-image
+mvn -Plinux spring-boot:build-image
