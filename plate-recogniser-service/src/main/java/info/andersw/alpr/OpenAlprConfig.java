@@ -1,4 +1,4 @@
-package info.andersw;
+package info.andersw.alpr;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "openalpr")
 @ToString
 public class OpenAlprConfig {
+
+    @Getter
+    @Setter
+    private String nativeMode;
 
     @Getter
     @Setter
@@ -25,13 +29,10 @@ public class OpenAlprConfig {
 
     @Getter
     @Setter
-    private String nativeMode;
+    private String pathToalpr;
 
     @Getter
     @Setter
-    private String nativeLibFile;
+    private String imageDir;
 
-    @Getter
-    @Setter
-    private String jniFile;
 }
