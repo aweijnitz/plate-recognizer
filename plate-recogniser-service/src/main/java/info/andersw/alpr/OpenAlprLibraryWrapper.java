@@ -27,12 +27,14 @@ public class OpenAlprLibraryWrapper {
 
     @PostConstruct
     public boolean selfCheck() {
-        log.warn("SELFCHECK START");
+        log.info("SELFCHECK START");
         try {
-            ArrayList<String> result = execAlpr.runAlpr("h786poj.jpg");
+            //ArrayList<String> result = execAlpr.runAlpr("h786poj.jpg");
+            ArrayList<String> result = execAlpr.runAlpr("MUP2911_HPLS71.jpg");
+
             if(result.size() == 0)
                 return false;
-        } catch (InterruptedException | IOException e) {
+        } catch (Throwable e) {
             log.warn("SELFCHECK FAIL");
             e.printStackTrace();
             return false;

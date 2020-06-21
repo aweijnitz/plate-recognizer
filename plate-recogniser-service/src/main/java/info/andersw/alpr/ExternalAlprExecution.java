@@ -1,5 +1,7 @@
 package info.andersw.alpr;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import info.andersw.alpr.parsing.ClassificationResultParser;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,30 +29,49 @@ public class ExternalAlprExecution {
         baseCmd = new File(config.getPathToalpr() + "alpr").getAbsolutePath();
         baseCmd += " -c " + config.getDefaultLocation();
         baseCmd += " --config " + new File(config.getConfigFile()).getAbsolutePath();
-        baseCmd += " -n 10 ";
+        baseCmd += " -n 3 ";    // We only care about the top results
+        baseCmd += " --clock "; // Capture the execution time
+        baseCmd += " -j ";      // JSON result format
         log.info("Base command: " + baseCmd);
     }
 
-    public ArrayList<String> runAlpr(String imgFileName) throws InterruptedException, IOException {
+    public ArrayList<String> runAlpr(String imgFileName) {
+
         log.info("ANALYZING IMAGE " + imgFileName);
         ArrayList<String> result = new ArrayList<>();
-        // alpr -c eu --config ./openalpr-lib/openalpr.conf -n 3 ./testImage/h786poj.jpg
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command("sh", "-c", baseCmd + config.getImageDir() + imgFileName);
+        String cmd = baseCmd + config.getImageDir() + imgFileName;
+        builder.command("sh", "-c", cmd);
         //builder.directory(new File(System.getProperty("user.home")));
-        Process process = builder.start();
-        Consumer<String> commandResult = result::add;
-        StreamGobbler streamGobbler =
-                new StreamGobbler(process.getInputStream(),  commandResult);
-        Executors.newSingleThreadExecutor().submit(streamGobbler);
-        int exitCode = process.waitFor();
-        assert exitCode == 0;
-        log.info("RESULT " + result.toString());
-        return result;
+        Process process = null;
+        int exitCode = 0;
+
+        try {
+            ArrayList<String> cmdOutput = new ArrayList<>();
+            process = builder.start();
+            Consumer<String> commandResult = cmdOutput::add;
+            StreamGobbler streamGobbler =
+                    new StreamGobbler(process.getInputStream(), commandResult);
+            Executors.newSingleThreadExecutor().submit(streamGobbler);
+            exitCode = process.waitFor();
+            if (exitCode != 0) {
+                log.warn("Sub process exited with exit code " + exitCode + "for " + cmd);
+                return result;
+            }
+            ClassificationResultParser crp = new ClassificationResultParser(cmdOutput);
+            log.info("RESULT " + crp.getTopPlates().toString());
+            return crp.getTopPlates();
+
+        } catch (IOException | InterruptedException e) {
+            log.error("Exception for " + cmd + ", " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<String>();
+        }
     }
 
+
     /*
-     * Lifted straight frmo the example https://www.baeldung.com/run-shell-command-in-java
+     * Lifted straight from the example https://www.baeldung.com/run-shell-command-in-java
      */
     private static class StreamGobbler implements Runnable {
         private final InputStream inputStream;
