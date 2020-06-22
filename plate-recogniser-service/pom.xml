@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -20,8 +21,16 @@
     <version>1.0-SNAPSHOT</version>
     <description>Service to grab plate numbers from images</description>
 
+    <!-- =========================================================== -->
+    <!--     Dependency Management                                   -->
+    <!-- =========================================================== -->
+    <repositories>
+        <repository>
+            <id>javaxt.com</id>
+            <url>http://www.javaxt.com/maven</url>
+        </repository>
+    </repositories>
     <dependencies>
-
         <dependency>
             <groupId>com.openalpr.jni</groupId>
             <artifactId>alpr</artifactId>
@@ -30,11 +39,30 @@
             <!-- <systemPath>${project.basedir}/src/main/resources/openalpr4java.jar</systemPath> -->
             <systemPath>${project.basedir}/openalpr-lib/macosx/openalpr4java.jar</systemPath>
         </dependency>
-
+        <dependency>
+            <groupId>javaxt</groupId>
+            <artifactId>javaxt-core</artifactId>
+            <version>1.10.1</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-amqp</artifactId>
+            <version>2.2.7.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit -->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>2.2.7.RELEASE</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,27 +1,19 @@
-# REST Service Blueprint
+# Plate Recognizer Service
 
-Personal accelerator to speed up home project creation.
-
-This is a generic webservice that is in intended as a blueprint to save time on those precious Saturday mornings and late evenings when dad gets some personal time to work on fun side projects.
-
-#### What's in the box?
-
-- Basic SpringBoot REST webservice scaffold, including tests
-- Docker Image build using Maven
-- Kubernetes deployment in dedicated namespace, accessed via Ingress Controller from the outside
+This is a Springboot service which wraps OpenALPR. It takes images of cars as input and returns the recognized plate numbers.
 
 ## Prerequisites
 
 - Java/JDK installed (project developed using openjdk v13.0.2)
 - Docker
-- Minikube (should work with any Kubernetes implementation, including k3s)
-
+- RabbitMQ: `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management`
+-- RabbitMQ Minikube guide https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s/tree/master/examples
+-- Admin at http://localhost:15672/ (guest/guest)
 ## Use
 
-Running locally, without Docker or Minikube.
+Quick run
 
-    $ java -jar target/application.jar
-    $ curl http://localhost:9090/message
+    $ mvn -Pmacosx clean -DskipTests clean package && ./runMac.sh
     
 ## Build and Build and Run
 

@@ -1,10 +1,7 @@
 package info.andersw;
 
 import info.andersw.model.Message;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -17,4 +14,5 @@ public class MessageController {
     public Message message(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Message(counter.incrementAndGet(), String.format(template, name));
     }
+
 }

@@ -35,4 +35,8 @@ public class OpenAlprConfig {
     @Setter
     private String imageDir;
 
+    @Getter
+    @Setter
+    private boolean runSelfCheckOnStart;
+
 }
