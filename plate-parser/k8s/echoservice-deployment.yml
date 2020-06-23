@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoservice
+  namespace: echoservice-ns
+  labels:
+    app: echoservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: echoservice
+  template:
+    metadata:
+      labels:
+        app: echoservice
+    spec:
+      containers:
+        - name: echoservice-container
+          image: echoservice:1.0-SNAPSHOT
+          ports:
+            - containerPort: 9090
