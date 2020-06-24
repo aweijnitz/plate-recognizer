@@ -34,9 +34,8 @@ public class ImageRecognizerController {
     private OpenAlprLibraryWrapper analyzer;
 
     @PostMapping("/api/v1/recognize")
-    public ArrayList<String>  handleFileUpload(@RequestParam("image") MultipartFile image) throws IOException {
-
-        Path tmpFileName = createWorkfileName(""+image.hashCode()+"-"+image.getSize()+"-"+image.getOriginalFilename());
+    public ArrayList<String> handleFileUpload(@RequestParam("image") MultipartFile image) throws IOException {
+        Path tmpFileName = createWorkfileName("" + image.hashCode() + "-" + image.getSize() + "-" + image.getOriginalFilename());
         log.debug("POST Received and storing image under name " + tmpFileName.toString());
         Files.write(tmpFileName, image.getBytes());
         ArrayList<String> plates = analyzer.analyzeImageFile(tmpFileName.getFileName().toString());
@@ -44,7 +43,7 @@ public class ImageRecognizerController {
         log.debug("POST Returning " + plates);
         return plates;
     }
-    
+
     private Path createWorkfileName(@NonNull String name) {
         String fileName = "tmp." + fileNr.incrementAndGet() + name;
         return Paths.get(config.getImageDir() + File.separator + fileName).toAbsolutePath();
