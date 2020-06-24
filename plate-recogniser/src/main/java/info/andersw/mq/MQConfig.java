@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 @ToString
 public class MQConfig {
-    
+
     @Getter
     @Setter
     private boolean produceTestMessages;
