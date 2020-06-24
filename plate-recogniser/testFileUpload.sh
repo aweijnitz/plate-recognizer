@@ -1,1 +1,1 @@
-curl -v -F image=@/Users/anders/IdeaProjects/nummerschilder/plate-recogniser/testImages/h786poj.jpg http://localhost:9090/api/v1/recognize
+curl -v -F image=@testImages/h786poj.jpg http://localhost:9090/api/v1/recognize
