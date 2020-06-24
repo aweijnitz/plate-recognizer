@@ -1,7 +1,6 @@
 package info.andersw.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jdk.nashorn.internal.runtime.logging.Logger;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.apachecommons.CommonsLog;
@@ -23,9 +22,9 @@ public final class ParsedPlateMessage implements Serializable {
     private final String clientId;
 
     public ParsedPlateMessage(@JsonProperty("clientId") String clientId,
-                              @JsonProperty("plateNumbers") ArrayList<String> plateNumbers,
+                              @JsonProperty("regions") ArrayList<String> regions,
                               @JsonProperty("messageId") String messageId) {
-        this.regions = plateNumbers;
+        this.regions = regions;
         this.clientId = clientId;
         this.messageId = messageId;
     }

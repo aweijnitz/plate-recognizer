@@ -1,13 +1,16 @@
 package info.andersw.mq;
 
+import info.andersw.model.ParsedPlateMessage;
+import lombok.Getter;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-@Component
+@Service
 @CommonsLog
 public class ParsedPlateMessageSender {
 
@@ -15,15 +18,24 @@ public class ParsedPlateMessageSender {
     AmqpAdmin amqpAdmin;
 
     @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @Autowired
     MQConfig config;
 
-    FanoutExchange exch;
+    @Getter
+    FanoutExchange exchange;
 
     public ParsedPlateMessageSender() {}
 
     @PostConstruct
     public void init() {
-        exch = fanoutExchange();
+        exchange = fanoutExchange();
+    }
+
+    public void sendMessage(ParsedPlateMessage message) {
+        log.debug("Sending ParsedPlateMessage to " + config.getParsedPlatesExchange());
+        rabbitTemplate.convertAndSend(config.getParsedPlatesExchange(), "", message);
     }
 
     private FanoutExchange fanoutExchange() {
@@ -37,7 +49,6 @@ public class ParsedPlateMessageSender {
         amqpAdmin.declareQueue(config.bookKeeperQ());
         amqpAdmin.declareBinding(bindingPp);
         amqpAdmin.declareBinding(bindingBk);
-
         return exch;
     }
 
