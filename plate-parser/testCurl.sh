@@ -1,0 +1,1 @@
+curl -X POST localhost:9090/api/v1/parse -H 'Content-type:application/json' -d '{"clientId": "c0", "messageId": "m0", "plateNumbers": ["AW1233", "LF1234", "ULX123"]}'

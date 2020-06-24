@@ -56,7 +56,6 @@ public class GermanRegionPrefixes {
         // TODO
         // For each plate in message
         plates.forEach(plate -> {
-            log.debug("Processing plate " + plate + " PREFIX: " + plate.substring(0, 2));
             String regionCandidate = plate.substring(0, 3);
             while (regionCandidate.length() > 0) {
                 String hit = getRegion(regionCandidate);
@@ -67,6 +66,7 @@ public class GermanRegionPrefixes {
                 regionCandidate = regionCandidate.substring(0, regionCandidate.length() - 1);
             }
         });
+        log.debug("Matched " + plates + " to " + result);
         return result;
     }
 
