@@ -14,15 +14,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 @ToString
 public class MQConfig {
-
-    @Getter
-    @Setter
-    private String exchangeName;
-
-    @Getter
-    @Setter
-    private String routingKey;
-
+    
     @Getter
     @Setter
     private boolean produceTestMessages;
