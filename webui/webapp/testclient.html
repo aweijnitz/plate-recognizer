@@ -17,10 +17,22 @@
             src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="debug"></div>
+
+<video id="video" width="800" height="600" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<img id="testimage" src="img/HPLS71-nearer.jpg">
+
+<div id="debugImage"></div>
+<script src="js/config.js"></script>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/webstomp-client@1.2.6/dist/webstomp.min.js"></script>
-<script src="/js/app00.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/queue.js"></script>
+<script src="js/toDataUrl.js"></script>
+<script src="js/imageSubmit.js"></script>
+<script src="js/testclient.js"></script>
 </body>
 </html>

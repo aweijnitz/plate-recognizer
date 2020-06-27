@@ -22,18 +22,18 @@ public class WebSocketController {
     // message-handling method should be sent as a Message to the specified
     // destination(s) prepended with “/user/{username}“.
     @MessageMapping("/message")
-    @SendToUser("/queue/reply")
+    @SendToUser("/topic/reply")
     public ClientAckMessage processMessageFromClient(
             @Payload ImageMessage message) throws Exception {
         log.info("INCOMING " + message.toString());
-        ClientAckMessage ack = new ClientAckMessage("Hello from WebSocketController:processMessageFromClient");
-        messagingTemplate.convertAndSend("/queue/reply", ack);
-        //messagingTemplate.convertAndSend("/app/queue/reply", ack);
+        ClientAckMessage ack = new ClientAckMessage("Hello " + message.getClientId());
+        messagingTemplate.convertAndSend("/topic/reply", ack);
+
         return ack;
     }
 
     @MessageExceptionHandler
-    @SendToUser("/queue/errors")
+    @SendToUser("/topic/errors")
     public String handleException(Throwable exception) {
         log.info("ERROR HANDLED " + exception.getMessage());
         return exception.getMessage();

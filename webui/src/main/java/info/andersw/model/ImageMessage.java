@@ -12,11 +12,15 @@ import java.io.Serializable;
 public final class ImageMessage implements Serializable {
 
     @Getter
+    @JsonProperty("clientId")
     private final String clientId;
+
     @Getter
+    @JsonProperty("imageData")
     private final String imageData;
 
     @Getter
+    @JsonProperty("messageId")
     private final String messageId;
 
     public ImageMessage(@JsonProperty("clientId") String clientId,
