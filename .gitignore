@@ -2,6 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,maven,java,windows,emacs,ssh,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,maven,java,windows,emacs,ssh,intellij
 
+.DS_Store
+
 *.iml
 .idea/
 ### Emacs ###
