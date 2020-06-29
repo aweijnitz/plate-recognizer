@@ -26,7 +26,8 @@ public class ParsedPlateMessageSender {
     @Getter
     FanoutExchange exchange;
 
-    public ParsedPlateMessageSender() {}
+    public ParsedPlateMessageSender() {
+    }
 
     @PostConstruct
     public void init() {
@@ -39,9 +40,12 @@ public class ParsedPlateMessageSender {
     }
 
     private FanoutExchange fanoutExchange() {
+        boolean durable = true;
+        boolean autoDelete = false;
         String exchName = config.getParsedPlatesExchange();
         log.debug("Creating FanoutExchange with name: " + exchName);
-        FanoutExchange exch = ExchangeBuilder.fanoutExchange(exchName).build();
+        // FanoutExchange exch = ExchangeBuilder.fanoutExchange(exchName).build();
+        FanoutExchange exch = new FanoutExchange(exchName, true, autoDelete);
         Binding bindingPp = BindingBuilder.bind(config.parsedPlatesQ()).to(exch);
         Binding bindingBk = BindingBuilder.bind(config.bookKeeperQ()).to(exch);
         amqpAdmin.declareExchange(exch);

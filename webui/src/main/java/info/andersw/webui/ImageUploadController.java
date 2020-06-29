@@ -22,14 +22,16 @@ public class ImageUploadController {
 
     @PostMapping("/api/v1/submit")
     ClientAckMessage uploadImage(@RequestBody ImageMessage imgMsg) {
-//        log.debug("POST received message: "
-//                + imgMsg.getClientId() + " msgId: "
-//                + imgMsg.getMessageId()
-//                + " dataSize:" + imgMsg);
-        log.debug("POST RECEIVED " + imgMsg);
+        if (imgMsg.getClientId() == null
+                || imgMsg.getMessageId() == null
+                || imgMsg.getImageData() == null)
+            return new ClientAckMessage("Message not valid.");
+
+        log.debug("POST RECEIVED. Data size (Kb)" + (imgMsg.getImageData().length() / 1024));
+
         if (imgMsg.getImageData() != null)
             sender.sendMessage(imgMsg);
+
         return new ClientAckMessage("Submitted for analysis.");
     }
-
 }
