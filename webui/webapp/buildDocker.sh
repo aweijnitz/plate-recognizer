@@ -1,1 +1,0 @@
-docker build -t plateui:1.0 .

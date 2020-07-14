@@ -4,6 +4,8 @@
 
 .DS_Store
 
+plate-recogniser/testImages/tmp*
+
 *.iml
 .idea/
 ### Emacs ###
