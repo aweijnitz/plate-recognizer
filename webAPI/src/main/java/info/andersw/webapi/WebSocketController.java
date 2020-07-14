@@ -1,4 +1,4 @@
-package info.andersw.webui;
+package info.andersw.webapi;
 
 import info.andersw.model.ClientAckMessage;
 import info.andersw.model.ImageMessage;

@@ -1,4 +1,4 @@
-package info.andersw.webui;
+package info.andersw.webapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,12 +1,10 @@
-package info.andersw.webui;
+package info.andersw.webapi;
 
 import info.andersw.model.ClientAckMessage;
 import info.andersw.model.ImageMessage;
 import info.andersw.mq.ImageMessageSender;
-import info.andersw.mq.MQConfig;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

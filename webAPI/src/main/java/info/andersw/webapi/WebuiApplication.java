@@ -1,4 +1,4 @@
-package info.andersw.webui;
+package info.andersw.webapi;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package info.andersw.webui.config;
+package info.andersw.webapi.config;
 
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.context.annotation.Configuration;
