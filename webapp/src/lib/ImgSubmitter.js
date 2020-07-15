@@ -35,7 +35,8 @@ export class ImgSubmitter {
     }
 
     submitImage(imgElement, callback) {
-        let msg = this.createMessage(this.clientId, imgElementToBase64(imgElement));
+        alert("ImgSubmitter:submitImage Not yet implemented")
+        let msg = this.createMessage(this.clientId, imgElementToBase64(imgElement)); // TODO: Add local helper imgElementToBase64
         this.send(msg, callback);
     }
 

@@ -165,10 +165,12 @@ $(async () => {
         console.log("Msg Handler: ", msg);
         let body = JSON.parse(msg.body);
         let regions = body.regions;
-        if(regions.length == 0)
+        if(regions.length === 0)
             return;
         let div = document.createElement("div");
-        let text = document.createTextNode(regions[0]);
+        let regionsText = '';
+        regions.forEach((el, i) => i > 0 ? regionsText += ', ' + el : regionsText += el);
+        let text = document.createTextNode(regionsText);
         div.appendChild(text);
         recognizedPlatesElement.append(div);
     }

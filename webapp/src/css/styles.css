@@ -1,6 +1,18 @@
 h1 {
     font-size: x-large;
 }
+
+#uploadImage {
+    height: 416px;
+    display: none;
+}
+
+#dropTray {
+    height: 100px;
+    background-color: #eeeeee;
+    color: #909090;
+}
+
 .photoWrapper {
     position: relative;
     display: flex;

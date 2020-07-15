@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "rm -rf ./dist && parcel build src/index.html --public-url='/'",
-    "serve": "parcel src/index.html --port 8000"
+    "servex": "parcel src/index.html --port 8000",
+    "serve": "parcel src/upload.html --port 8000"
   }
 }
