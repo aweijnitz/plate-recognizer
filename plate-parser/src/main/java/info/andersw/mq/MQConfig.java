@@ -5,15 +5,12 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,14 +23,6 @@ public class MQConfig {
     @Getter
     @Setter
     private String parsedPlatesExchange;
-
-    @Getter
-    @Setter
-    private String parsedPlatesQueueName;
-
-    @Getter
-    @Setter
-    private String bookKeeperQueueName;
 
     @Getter
     @Setter
@@ -51,11 +40,22 @@ public class MQConfig {
     @Setter
     private String rappbitmqPassword;
 
-    @Autowired
-    AmqpAdmin amqpAdmin;
+    @Getter
+    @Setter
+    private FanoutExchange exchange;
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;
+    final AmqpAdmin amqpAdmin;
+    private final Queue parsedPlatesQ;
+    private final Queue bookKeeperQ;
+
+    public MQConfig(AmqpAdmin amqpAdmin,
+                    @Qualifier("parsedPlatesQ") Queue parsedPlatesQ,
+                    @Qualifier("bookKeeperQ") Queue bookKeeperQ) {
+        this.amqpAdmin = amqpAdmin;
+        this.parsedPlatesQ = parsedPlatesQ;
+        this.bookKeeperQ = bookKeeperQ;
+    }
+
 
     @Bean
     public Queue platesQ() {
@@ -71,38 +71,38 @@ public class MQConfig {
         return new Jackson2JsonMessageConverter();
     }
 
-    /*
+
+
+
     @Bean
-    public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory =
-                new CachingConnectionFactory(getRabbitmqHost());
-        connectionFactory.setUsername(getRappbitmqUsername());
-        connectionFactory.setPassword(getRappbitmqPassword());
-        log.debug("ConnectionFactory created: " + connectionFactory.getHost() + " " + connectionFactory.getUsername());
-        return connectionFactory;
+    @Profile("!test")
+    public FanoutExchange fanoutExchange() {
+        boolean durable = true;
+        boolean autoDelete = false;
+        String exchName = getParsedPlatesExchange();
+        log.debug("Creating FanoutExchange with name: " + exchName);
+        // FanoutExchange exch = ExchangeBuilder.fanoutExchange(exchName).build();
+        FanoutExchange exch = new FanoutExchange(exchName, true, autoDelete);
+        Binding bindingPp = BindingBuilder.bind(parsedPlatesQ).to(exch);
+        Binding bindingBk = BindingBuilder.bind(bookKeeperQ).to(exch);
+        amqpAdmin.declareExchange(exch);
+        amqpAdmin.declareQueue(parsedPlatesQ);
+        amqpAdmin.declareQueue(bookKeeperQ);
+        amqpAdmin.declareBinding(bindingPp);
+        amqpAdmin.declareBinding(bindingBk);
+        return exch;
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
-    }
-
-
-    @Bean
-    @DependsOn({"rabbitTemplate"})
-    public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
-    }
-*/
-
-    @Bean
-    public Queue parsedPlatesQ() {
-        return new Queue(getParsedPlatesQueueName());
-    }
-
-    @Bean
-    public Queue bookKeeperQ() {
-        return new Queue(getBookKeeperQueueName());
+    @Profile("test")
+    public FanoutExchange fanoutExchangeTest() {
+        boolean durable = false;
+        boolean autoDelete = true;
+        String exchName = getParsedPlatesExchange();
+        log.debug("Creating TEST FanoutExchange with name: " + exchName);
+        // FanoutExchange exch = ExchangeBuilder.fanoutExchange(exchName).build();
+        FanoutExchange exch = new FanoutExchange(exchName, durable, autoDelete);
+        return exch;
     }
 
 }

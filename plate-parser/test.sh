@@ -1,1 +1,1 @@
-mvn -Pdev test
+mvn -Ptest test
