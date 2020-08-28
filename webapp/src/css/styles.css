@@ -26,12 +26,15 @@ h1 {
 
 .rect {
     position: absolute;
-    border: 1px solid red;
+    border: 3px solid red;
     font-size: 24px;
 }
 
 .regionPrefix {
-    font-size: smaller;
+    font-size: x-large;
     font-weight: bolder;
 }
 
+#recognizedPlatesId {
+    font-size: 3.2em;
+}
