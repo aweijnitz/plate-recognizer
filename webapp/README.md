@@ -22,7 +22,7 @@ Object detection done using [tfjs-yolo-tiny](https://github.com/ModelDepot/tfjs-
 
 ## Serve Demo
 
-    yarn serve
+    yarn watch
 
 # Build
 
